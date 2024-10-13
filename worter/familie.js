@@ -1,11 +1,11 @@
 const familieWorter = [
     {magyar: "apa", 
-    nevelo: "der",
+    nevelo: "der ",
     szo: "Vater",
     tsz: "die Väter"
     }, 
     {magyar: "anya", 
-    nevelo: "die",
+    nevelo: "die ",
     szo: "Mutter",
     tsz: "die Mütter"
     }
