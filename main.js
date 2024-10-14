@@ -1,18 +1,14 @@
 import promptSync from 'prompt-sync';
 const prompt = promptSync({ sigint: true });
-/*
-let listOfImports=[ { familieWorter }, { nummer }, { farbe }, { verben }];
+/*let listOfImports=[ { familieWorter }, { nummer }, { farbe }, { verben }];
 let listOfImportRep=['./worter/familie.js', './worter/nummer.js','./worter/farbe.js', './worter/verben.js'  ];
-
 for (let index = 0; index < listOfImports.length; index++) {
     import listOfImports[i] from listOfImportRep[i];  
-}
-*/
+}*/
 
 //NEXT TASK: -Don't repeat questions
 //           -expand databases
 //           - ß, ü, ö... as prompt
-
 
 import { familieWorter } from './worter/familie.js';
 import { nummer } from './worter/nummer.js';
@@ -50,7 +46,7 @@ function gamefunction(userInput) {
     let objectOfAnswers = {
         bad: [],
         good: []
-    }
+    };
 
     let question;
     let answer;
@@ -67,7 +63,7 @@ function gamefunction(userInput) {
         let answerAboutTopic = prompt();
 
         while (Number(answerAboutTopic) !== 1 && Number(answerAboutTopic) !== 2 && Number(answerAboutTopic) !== 3) {
-            answerAboutTopic = prompt("\nGeben Sie 1, 2 oder 3 ein, um zu wählen/ írj 1-est 2-est vagy 3-ast a választáshoz")
+            answerAboutTopic = prompt("\nGeben Sie 1, 2 oder 3 ein, um zu wählen/ írj 1-est 2-est vagy 3-ast a választáshoz");
         }
         console.log("\ngute Wahl! /jó választás!");
         waitForEnter();
@@ -98,8 +94,8 @@ function gamefunction(userInput) {
         let givenAnswer = prompt();
         //verify response
         if (givenAnswer !== answer) {
-            objectOfAnswers.bad.push(question+":"+givenAnswer);
-            objectOfAnswers.good.push(question+":" + answer);
+            objectOfAnswers.bad.push(question + ":" + givenAnswer);
+            objectOfAnswers.good.push(question + ":" + answer);
             console.log("\nLeider ist das die falsche Antwort! :( Sajnos ez rossz válasz :(");
             waitForEnter();
 
