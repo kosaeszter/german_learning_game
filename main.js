@@ -9,6 +9,11 @@ for (let index = 0; index < listOfImports.length; index++) {
 }
 */
 
+//NEXT TASK: -Don't repeat questions
+//           -expand databases
+//           - ß, ü, ö... as prompt
+
+
 import { familieWorter } from './worter/familie.js';
 import { nummer } from './worter/nummer.js';
 import { farbe } from './worter/farbe.js';
@@ -22,6 +27,8 @@ function waitForEnter(userInput) {
 }
 
 function gamefunction(userInput) {
+
+    // greeting, choosing between words and numbers, determining the number of questions
     console.clear();
     console.log("Wilkommen! / Üdvözöllek!");
     console.log("Was möchtest du heute üben?/ Mit szeretnél ma gyakorolni?");
@@ -39,6 +46,7 @@ function gamefunction(userInput) {
         numberOfTheQuestions = prompt("Wie viele Fragen möchtest du?");
     }
 
+    // objectOfAnswers -> I prepare space for good and bad answers
     let objectOfAnswers = {
         bad: [],
         good: []
@@ -46,7 +54,7 @@ function gamefunction(userInput) {
 
     let question;
     let answer;
-    let data;
+    let data; // the user tells which database he wants to practice with -> data
 
     if (Number(choseWordsOrNumbers) == 1) {
         data = nummer;
@@ -73,9 +81,11 @@ function gamefunction(userInput) {
         }
     }
 
-    //choose random word
+    //Generate random number -> random word selection
     for (let j = 0; j < numberOfTheQuestions; j++) {
         let randomindex = Math.floor(Math.random() * data.length);
+        // The numbers are only in an array, and the words are in an object, 
+        //so they will have to be referenced differently
         if (data == nummer) {
             question = randomindex;
             answer = data[randomindex];
@@ -83,9 +93,10 @@ function gamefunction(userInput) {
             question = data[randomindex]["magyar"];
             answer = data[randomindex]["nevelo"] + data[randomindex]["szo"];
         }
+        //ask a question
         console.log(`Schreiben Sie es auf Deutsch/ Írd le németül: ${question}`);
         let givenAnswer = prompt();
-
+        //verify response
         if (givenAnswer !== answer) {
             objectOfAnswers.bad.push(question+":"+givenAnswer);
             objectOfAnswers.good.push(question+":" + answer);
@@ -98,11 +109,12 @@ function gamefunction(userInput) {
         }
     }
 
-
+    //end of the game -> display the result
     let percent = ((numberOfTheQuestions - objectOfAnswers.bad.length) / numberOfTheQuestions) * 100
     console.log(`Az eredményed: ${numberOfTheQuestions - objectOfAnswers.bad.length}/${numberOfTheQuestions}`);
     console.log(`Ez ${percent}%-os teljesítmény!! \n`);
 
+    // If there were Wrong answers -> print wrong answer + solutions
     if (!(objectOfAnswers.bad.length == 0)) {
         console.log("Falsche Antwort/en/ helytelen válasz/ok: ");
         for (const element of objectOfAnswers.bad) {
