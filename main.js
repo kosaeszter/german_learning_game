@@ -1,22 +1,18 @@
-import { familieWorter } from './worter/familie.js';
-import { nummer } from './worter/nummer.js';
-import { farbe} from './worter/farbe.js';
-import { verben} from './worter/verben.js';
-
 import promptSync from 'prompt-sync';
 const prompt = promptSync({ sigint: true });
+/*
+let listOfImports=[ { familieWorter }, { nummer }, { farbe }, { verben }];
+let listOfImportRep=['./worter/familie.js', './worter/nummer.js','./worter/farbe.js', './worter/verben.js'  ];
 
+for (let index = 0; index < listOfImports.length; index++) {
+    import listOfImports[i] from listOfImportRep[i];  
+}
+*/
 
-let numberOfTheWords;
-let chooseProgram;
-let nummerFunRun = false;
-let wordsFunRun = false;
-
-
-console.clear();
-console.log("Wilkommen! / Üdvözöllek!");
-console.log("Was möchtest du heute üben?/ Mit szeretnél ma gyakorolni?");
-
+import { familieWorter } from './worter/familie.js';
+import { nummer } from './worter/nummer.js';
+import { farbe } from './worter/farbe.js';
+import { verben } from './worter/verben.js';
 
 function waitForEnter(userInput) {
     while (!(userInput == "")) {
@@ -25,140 +21,100 @@ function waitForEnter(userInput) {
     }
 }
 
-chooseProgram = prompt("1: Nummer (számok) oder 2:  Wörter (szavak)");
-
-while (Number(chooseProgram) !== 1 && Number(chooseProgram) !== 2) {
-    console.log("\nGeben Sie 1 oder 2 ein, um zu wählen/ írj 1-est vagy 2-est a választáshoz")
-    chooseProgram = prompt("1: Nummer (számok) oder 2: Wörter (szavak) ");
-} 
-console.log("\ngute Wahl! /jó választás!");
-
-numberOfTheWords = prompt("Wie viele Fragen möchten Sie?/ Hány kérdést szeretnél?");
-
-
-function chooseFunction(userinput) {
-    if (userinput == 1) {
-        nummerFun(numberOfTheWords);
-    } else {
-        familieFun(numberOfTheWords);
-    }
-}
-
-chooseFunction(chooseProgram);
-
-function containsSpecial(word) {
-    const diacritics = ['ü', 'ö', 'ä', 'ß'];
-    
-    for (let i = 0; i < diacritics.length; i++) {
-        if (word.includes(diacritics[i])) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
-function nummerFun(number) {
+function gamefunction(userInput) {
     console.clear();
-    let listOfTheNumbers = {
-        bad: [],
-        good: []
-    };
-    for (let j = 0; j < number; j++) {
-        let randomindex = Math.floor(Math.random() * 100);
-        while (containsSpecial(nummer[randomindex])) {
-            randomindex = Math.floor(Math.random() * 100);
-        }
-        console.log(`Schreiben Sie es auf Deutsch/ Írd le németül: ${randomindex}`);
-        let givenNum = prompt();
-        if (givenNum !== nummer[randomindex]) {
-            listOfTheNumbers.bad.push(givenNum);
-            listOfTheNumbers.good.push(randomindex, nummer[randomindex]);
-            console.log("\nLeider ist das die falsche Antwort! :( Sajnos ez rossz válasz :(");
-            waitForEnter();
-        } else {
-            console.log("Sehr gut! :) / Nagyon jó! :)");
-            waitForEnter();
-        }
+    console.log("Wilkommen! / Üdvözöllek!");
+    console.log("Was möchtest du heute üben?/ Mit szeretnél ma gyakorolni?");
+
+    let choseWordsOrNumbers = prompt("1: Nummer (számok) oder 2:  Wörter (szavak)");
+    while (Number(choseWordsOrNumbers) !== 1 && Number(choseWordsOrNumbers) !== 2) {
+        console.log("\nGeben Sie 1 oder 2 ein, um zu wählen/ írj 1-est vagy 2-est a választáshoz")
+        choseWordsOrNumbers = prompt("1: Nummer (számok) oder 2: Wörter (szavak) ");
     }
-
-    let percent = ((numberOfTheWords - listOfTheNumbers.bad.length) / numberOfTheWords) * 100
-    console.log(`Az eredményed: ${numberOfTheWords - listOfTheNumbers.bad.length}/${numberOfTheWords}`);
-    console.log(`Ez ${percent}%-os teljesítmény!! \n`);
-
-    if (!(listOfTheNumbers.bad.length == 0)) {
-        console.log("Falsche Antwort/en/ helytelen válasz/ok: ");
-        console.log(listOfTheNumbers.bad);
-        console.log("Die richtige Lösung/en / helyes megoldás/ok: ");
-        console.log(listOfTheNumbers.good);
-    }
-    return listOfTheNumbers;
-}
-
-function familieFun(number) {
-
-    console.log("\nMelyik témakört szeretnéd gyakorolni?/ Welches Thema möchtest du üben?");
-    console.log('1: Familie/család');
-    console.log("2: Farbe/színek");
-    console.log("3: Verben/igék");
-
-    let answer = prompt();
-    
-    while (Number(answer) !== 1 && Number(answer) !==2 && Number(answer) !== 3) {
-        answer=prompt("\nGeben Sie 1, 2 oder 3 ein, um zu wählen/ írj 1-est 2-est vagy 3-ast a választáshoz")
-    } 
     console.log("\ngute Wahl! /jó választás!");
     console.clear();
-    let chooseTopic;
 
-    if (answer == 1) {
-        chooseTopic= familieWorter;
-    } else if (answer == 2) {
-        chooseTopic= farbe;
-    }else {
-        chooseTopic = verben;
+    let numberOfTheQuestions = prompt("Wie viele Fragen möchten Sie?/ Hány kérdést szeretnél?");
+    while (numberOfTheQuestions > 25) {
+        numberOfTheQuestions = prompt("Wie viele Fragen möchtest du?");
     }
 
-
-    let listOfTheWords = {
+    let objectOfAnswers = {
         bad: [],
         good: []
-    };
+    }
 
-    for (let j = 0; j < number; j++) {
+    let question;
+    let answer;
+    let data;
 
-        let randomindex = Math.floor(Math.random() * chooseTopic.length);
+    if (Number(choseWordsOrNumbers) == 1) {
+        data = nummer;
+    } else {
+        console.log("\nMelyik témakört szeretnéd gyakorolni?/ Welches Thema möchtest du üben?");
+        console.log('1: Familie/család');
+        console.log("2: Farbe/színek");
+        console.log("3: Verben/igék");
 
-        console.log(`!!! Für Substantive ist auch ein Artikel erforderlich/Főnevek esetén névelő is kell`);
-        console.log("!!! Bitte schreiben Sie ss statt ß / Kérlek ß helyett ss-et írj ")
+        let answerAboutTopic = prompt();
 
-        console.log(`\nSchreiben Sie es auf Deutsch/ Írd le németül: ${chooseTopic[randomindex]["magyar"]}`);
+        while (Number(answerAboutTopic) !== 1 && Number(answerAboutTopic) !== 2 && Number(answerAboutTopic) !== 3) {
+            answerAboutTopic = prompt("\nGeben Sie 1, 2 oder 3 ein, um zu wählen/ írj 1-est 2-est vagy 3-ast a választáshoz")
+        }
+        console.log("\ngute Wahl! /jó választás!");
+        waitForEnter();
 
+        if (answerAboutTopic == 1) {
+            data = familieWorter;
+        } else if (answerAboutTopic == 2) {
+            data = farbe;
+        } else {
+            data = verben;
+        }
+    }
 
-        let givenWort = prompt();
+    //choose random word
+    for (let j = 0; j < numberOfTheQuestions; j++) {
+        let randomindex = Math.floor(Math.random() * data.length);
+        if (data == nummer) {
+            question = randomindex;
+            answer = data[randomindex];
+        } else {
+            question = data[randomindex]["magyar"];
+            answer = data[randomindex]["nevelo"] + data[randomindex]["szo"];
+        }
+        console.log(`Schreiben Sie es auf Deutsch/ Írd le németül: ${question}`);
+        let givenAnswer = prompt();
 
-        let wort = chooseTopic[randomindex]["nevelo"] + chooseTopic[randomindex]["szo"];
-
-        if (givenWort !== wort) {
-            listOfTheWords.bad.push(givenWort);
-            listOfTheWords.good.push(chooseTopic[randomindex]["magyar"], wort);
+        if (givenAnswer !== answer) {
+            objectOfAnswers.bad.push(question+":"+givenAnswer);
+            objectOfAnswers.good.push(question+":" + answer);
             console.log("\nLeider ist das die falsche Antwort! :( Sajnos ez rossz válasz :(");
             waitForEnter();
+
         } else {
             console.log("Sehr gut! :) / Nagyon jó! :)");
             waitForEnter();
         }
-
-        }
-        let percent = ((numberOfTheWords - listOfTheWords.bad.length) / numberOfTheWords) * 100
-        console.log(`Az eredményed: ${numberOfTheWords - listOfTheWords.bad.length}/${numberOfTheWords}`);
-        console.log(`Ez ${percent}%-os teljesítmény!! \n`);
-
-        if (!(listOfTheWords.bad.length == 0)) {
-            console.log("Falsche Antwort/en/ helytelen válasz/ok: ")
-            console.log(listOfTheWords.bad);
-            console.log("Die richtige Lösung/en / helyes megoldás/ok: ");
-            console.log(listOfTheWords.good);
     }
-    return listOfTheWords;
+
+
+    let percent = ((numberOfTheQuestions - objectOfAnswers.bad.length) / numberOfTheQuestions) * 100
+    console.log(`Az eredményed: ${numberOfTheQuestions - objectOfAnswers.bad.length}/${numberOfTheQuestions}`);
+    console.log(`Ez ${percent}%-os teljesítmény!! \n`);
+
+    if (!(objectOfAnswers.bad.length == 0)) {
+        console.log("Falsche Antwort/en/ helytelen válasz/ok: ");
+        for (const element of objectOfAnswers.bad) {
+            console.log(element);
+        }
+        console.log("\nDie richtige Lösung/en / helyes megoldás/ok: ");
+        for (const element of objectOfAnswers.good) {
+            console.log(element);
+        }
+    }
+
+    return objectOfAnswers;
 }
+
+gamefunction();
